@@ -3,56 +3,29 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/S3-service" />
-        <option name="gradleJvm" value="23" />
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/buildSrc" name="buildSrc">
+                <projects>
+                  <project path="$PROJECT_DIR$/buildSrc" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/S3-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/api-gateway" />
-        <option name="gradleJvm" value="23" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/api-gateway" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/auth-servus" />
-        <option name="gradleJvm" value="23" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/auth-servus" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/music-service" />
-        <option name="gradleJvm" value="23" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/music-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/recomendation-service" />
-        <option name="gradleJvm" value="23" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/recomendation-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/user-service" />
-        <option name="gradleJvm" value="23" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/user-service" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/services" />
+            <option value="$PROJECT_DIR$/services/api-gateway" />
+            <option value="$PROJECT_DIR$/services/auth-service" />
+            <option value="$PROJECT_DIR$/services/music-service" />
+            <option value="$PROJECT_DIR$/services/recommendation-service" />
+            <option value="$PROJECT_DIR$/services/s3-service" />
+            <option value="$PROJECT_DIR$/services/user-service" />
           </set>
         </option>
       </GradleProjectSettings>

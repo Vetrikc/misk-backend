@@ -1,0 +1,228 @@
+#Template
+x-service-defaults: &service-defaults
+  networks:
+    - microservices-net
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  api-gateway:
+    <<: *service-defaults
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVICE_NAME: api-gateway
+        GRADLE_CACHE_DIR: /root/.gradle/caches/api-gateway
+    image: misk-backend-api-gateway:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVICE_AUTH_URL=http://auth-service:8080
+      - SERVICE_USER_URL=http://user-service:8080
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+
+  auth-service:
+    <<: *service-defaults
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVICE_NAME: auth-service
+        GRADLE_CACHE_DIR: /root/.gradle/caches/auth-service
+    image: misk-backend-auth-service:latest
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://auth-db:5432/authdb
+      - DB_USER=postgres
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  user-service:
+    <<: *service-defaults
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVICE_NAME: user-service
+        GRADLE_CACHE_DIR: /root/.gradle/caches/user-service
+    image: misk-backend-user-service:latest
+    ports:
+      - "8082:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://user-db:5432/userdb
+    depends_on:
+      user-db:
+        condition: service_healthy
+
+  music-service:
+    <<: *service-defaults
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVICE_NAME: music-service
+        GRADLE_CACHE_DIR: /root/.gradle/caches/music-service
+    image: misk-backend-music-service:latest
+    ports:
+      - "8083:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://music-db:5432/musicdb
+    depends_on:
+      music-db:
+        condition: service_healthy
+
+  s3-service:
+    <<: *service-defaults
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVICE_NAME: s3-service
+        GRADLE_CACHE_DIR: /root/.gradle/caches/s3-service
+    image: misk-backend-s3-service:latest
+    ports:
+      - "8084:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://s3-db:5432/s3db
+    depends_on:
+      s3-db:
+        condition: service_healthy
+
+  recommendation-service:
+    <<: *service-defaults
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVICE_NAME: recommendation-service
+        GRADLE_CACHE_DIR: /root/.gradle/caches/recommendation-service
+    image: misk-backend-recommendation-service:latest
+    ports:
+      - "8085:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:postgresql://recommendation-db:5432/recommendationdb
+    depends_on:
+      recommendation-db:
+        condition: service_healthy
+
+  # Databases
+  auth-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  music-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: musicdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - music-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  recommendation-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: recommendationdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - recommendation-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  s3-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: s3db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - s3-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  auth-db-data:
+  user-db-data:
+  music-db-data:
+  recommendation-db-data:
+  s3-db-data:

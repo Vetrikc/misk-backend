@@ -1,0 +1,8 @@
+rootProject.name = 'misk-backend'
+
+include 'services:api-gateway'
+include 'services:auth-service'
+include 'services:user-service'
+include 'services:music-service'
+include 'services:s3-service'
+include 'services:recommendation-service'

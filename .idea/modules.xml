@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/misk-backend.iml" filepath="$PROJECT_DIR$/misk-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/services/api-gateway/misk-backend.services.api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/services/api-gateway/misk-backend.services.api-gateway.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/services/auth-service/misk-backend.services.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/services/auth-service/misk-backend.services.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/services/music-service/misk-backend.services.music-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/services/music-service/misk-backend.services.music-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/services/user-service/misk-backend.services.user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/services/user-service/misk-backend.services.user-service.main.iml" />
     </modules>
   </component>
 </project>
