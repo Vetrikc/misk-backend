@@ -1,4 +1,9 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.dependency.management)
+}
+
 dependencies {
-    implementation 'software.amazon.awssdk:s3:2.29.0'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation libs.spring.boot.starter.web
 }

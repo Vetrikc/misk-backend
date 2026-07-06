@@ -9,12 +9,10 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.6.3/52e345c907fbf173b376586c7f8b131d53fa5867/mapstruct-processor-1.6.3.jar" />
         </processorPath>
         <module name="misk-backend.services.auth-service.main" />
-        <module name="misk-backend.services.api-gateway.main" />
         <module name="misk-backend.services.main" />
+        <module name="misk-backend.services.api-gateway.main" />
         <module name="misk-backend.services.user-service.main" />
-        <module name="misk-backend.services.recommendation-service.main" />
         <module name="misk-backend.services.music-service.main" />
-        <module name="misk-backend.services.s3-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="23" />
